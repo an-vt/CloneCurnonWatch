@@ -45,8 +45,8 @@ let addBill = async (user, priceTotal, coupon) => {
     const bill = new Bill({
         user,
         priceTotal,
-        coupon: coupon.code ? coupon.code : '',
-        couponPresent: coupon.present ? coupon.present : '',
+        coupon: coupon ? coupon.code : '',
+        couponPresent: coupon ? coupon.present : '',
     })
     try {
         const savedBill = await bill.save();

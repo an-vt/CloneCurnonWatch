@@ -42,6 +42,7 @@ exports.register = async (req ,res) => {
 }
 
 exports.login = async (req ,res) => {
+    console.log('login')
     //check if username đã có trong database
     const user = await User.findOne({
         username : req.body.username.trim()
@@ -54,8 +55,6 @@ exports.login = async (req ,res) => {
     }
     const validPass = await bcrypt.compare(req.body.password.trim() ,user.password)
     if(!validPass) return res.status(401).send('Username or password wrong')
-
-    // if(user.role === 'ADMIN') return res.status(400).send('Tài khoản của bạn không có quyền truy cập')
 
     //create token
     const token = jwt.sign({_id: user._id} ,process.env.TOKEN_SECRET)
