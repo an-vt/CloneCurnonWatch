@@ -22,8 +22,8 @@ function IndexClient(props) {
 
             var raw = JSON.stringify({
                 "search": "",
-                "start": "0",
-                "length": "4"
+                "page": "1",
+                "limit": "4"
             });
 
             var requestOptions = {
@@ -34,7 +34,7 @@ function IndexClient(props) {
             };
 
             try {
-                let response = await fetch("http://localhost:8080/api/product/search", requestOptions)
+                let response = await fetch("http://localhost:4000/api/product/search", requestOptions)
                 if (response.ok) {
                     let results = await response.json()
                     console.log(results)

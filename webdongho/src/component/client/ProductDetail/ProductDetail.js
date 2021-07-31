@@ -34,7 +34,7 @@ export default function ProductDetail(props) {
             redirect: 'follow'
         };
         try {
-            let response = await fetch('http://localhost:8080/api/product/'+id ,requestOptions);
+            let response = await fetch('http://localhost:4000/api/product/'+id ,requestOptions);
 
             if(response.ok) {
                 let result = await response.json()
@@ -52,7 +52,7 @@ export default function ProductDetail(props) {
                     <div className="row product-detail-row">
                         <div className="col l-6">
                             <div className="product-detail__picture">
-                                <img src={"http://localhost:8080/api/download/"+product.image} alt="" className="product-detail__img" />
+                                <img src={"http://localhost:4000/api/download/"+product.image} alt="" className="product-detail__img" />
                             </div>
                         </div>
                         <div className="col l-6">

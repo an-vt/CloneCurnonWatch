@@ -4,21 +4,14 @@
 // const $ = document.querySelector.bind(document);
 // const $$ = document.querySelectorAll.bind(document);
 
-export default function handleHover() {
+export default function handleHoverSubNav() {
     const categoryList = document.querySelectorAll('.categoryList-item')
     const categoryListContent = document.querySelectorAll('.header-left-body-content')
 
-    console.log(categoryList)
-    console.log(categoryListContent)
-
     categoryList.forEach((item ,index) => {
         const listContentItem = categoryListContent[index]
-    
-        console.log(listContentItem)
-    
         item.onmouseover = function() {
-            console.log('click')
-    
+
             document.querySelector('.categoryList-item.hover').classList.remove('hover')
             document.querySelector('.header-left-body-content.active').classList.remove('active')
     
@@ -27,3 +20,18 @@ export default function handleHover() {
         }    
     })
 }
+
+export function handleHoverProductInfo() {
+    const productInfoList = document.querySelectorAll('.product-info__item')
+    productInfoList.forEach(item => {
+
+        item.onmouseover = () => {
+            //get product-info--choose and delete it
+            document.querySelector('.product-info__item.product-info__item--choose').classList.remove('product-info__item--choose')
+
+            //add product-info--choose into product-info selecting
+            item.classList.add('product-info__item--choose')
+        }
+
+    })
+} 

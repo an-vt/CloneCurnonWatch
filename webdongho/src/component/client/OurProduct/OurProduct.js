@@ -1,11 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+
+import { handleHoverProductInfo } from '../../../assets/client/js/script'
+
 
 OurProduct.propTypes = {
 
 };
 
 function OurProduct(props) {
+
+    useEffect(() => {
+        function loadHandleHoverProductIndo() {
+            handleHoverProductInfo()
+        }
+
+        loadHandleHoverProductIndo()
+    })
+
     return (
         <div className="our-prouduct">
             <div className="grid wide">

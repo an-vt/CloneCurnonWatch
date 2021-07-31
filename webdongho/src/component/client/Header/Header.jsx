@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import handleHover from '../../../assets/client/js/script'
+import handleHoverSubNav from '../../../assets/client/js/script'
 
 Header.propTypes = {
     carts :PropTypes.array,
@@ -27,7 +27,7 @@ function Header(props) {
     //load file javascript intend for handle sub nav headeer
     useEffect(() => {
         function loadHandleHoverSubNav() {
-            handleHover()
+            handleHoverSubNav()
         }
 
         loadHandleHoverSubNav()
@@ -53,7 +53,7 @@ function Header(props) {
             };
 
             try {
-                let response = await fetch("http://localhost:8080/api/product/search", requestOptions)
+                let response = await fetch("http://localhost:4000/api/product/search", requestOptions)
                 if (response.ok) {
                     let result = await response.json()
                     const { data } = result
@@ -91,7 +91,7 @@ function Header(props) {
         let quantity = event.target.value
         let idProduct = event.target.previousElementSibling.textContent
         carts.forEach((cartItem ,index) => {
-            if(idProduct == cartItem.id) {
+            if(idProduct == cartItem._id) {
                 cartItem.quantity = parseInt(quantity)
             }
         })
@@ -100,7 +100,7 @@ function Header(props) {
 
         //get totalPrice
         let total = carts.reduce((initValue ,cartItem ,index) => {
-            return initValue + ( parseInt(cartItem.price) * parseInt(cartItem.quantity) )
+            return initValue + ( parseInt((cartItem.price).split('.').join('')) * parseInt(cartItem.quantity) )
         } ,0)
         //change totalPrice when quantity item change
         setTotalPrice(total)
@@ -266,14 +266,14 @@ function Header(props) {
                                                 {carts.map(cartItem => {
                                                     console.log(cartItem)
                                                     return (
-                                                        <li key={cartItem.id} className="cart-productList-item">
+                                                        <li key={cartItem._id} className="cart-productList-item">
                                                             <div className="cart-productList-picture">
-                                                                <img className="cart-productList-img" src={"http://localhost:8080/api/download/"+cartItem.image} />
+                                                                <img className="cart-productList-img" src={"http://localhost:4000/api/download/"+cartItem.image} />
                                                             </div>
                                                             <div className="cart-productList-content">
                                                                 <p className="cart-productList-name">{cartItem.name}</p>
                                                                 <div className="cart-productList-quantityPrice">
-                                                                    <p style={{display :"none"}}>{cartItem.id}</p>
+                                                                    <p style={{display :"none"}}>{cartItem._id}</p>
                                                                     <input type="number" value={cartItem.quantity} onChange={handleChangeQuantity} min="1" className="cart-productList-quantity" />
                                                                     <span className="cart-productList__multiplication">x</span>
                                                                     <div className="cart-productList-price">
@@ -287,7 +287,7 @@ function Header(props) {
                                                                 </div>
                                                             </div>
                                                             <span className="cart-productList-delete__icon">
-                                                                <i idProduct={cartItem.id} onClick={handleDeleteCartClick} className="ti-trash icon-delete" />
+                                                                <i idProduct={cartItem._id} onClick={handleDeleteCartClick} className="ti-trash icon-delete" />
                                                             </span>
                                                         </li>
                                                     )
@@ -298,7 +298,7 @@ function Header(props) {
                                                     <span className="cart-productList-total__text">thành tiền</span>
                                                     <span className="cart-productList-total__total-price">
                                                         {carts.length > 0 ? carts.reduce((initValue ,cartItem) => {
-                                                            return initValue + ( parseInt(cartItem.price) * parseInt(cartItem.quantity) )
+                                                            return initValue + ( parseInt((cartItem.price).split('.').join('')) * parseInt(cartItem.quantity) )
                                                         } ,0) : 0}
                                                         <span className="cart-productList-total__total-unit">đ</span>
                                                     </span>
@@ -362,9 +362,9 @@ function Header(props) {
                                         <ul className="search-body-productList">
                                             {productList.map(product => {
                                                 return (
-                                                    <li key={product.id} className="search-body-item">
+                                                    <li key={product._id} className="search-body-item">
                                                         <div className="search-body-item__pictureName">
-                                                            <img src={"http://localhost:8080/api/download/"+product.image} alt="" className="search-body-item__img" />
+                                                            <img src={"http://localhost:4000/api/download/"+product.image} alt="" className="search-body-item__img" />
                                                             <span className="search-body-item__name">{product.name}</span>
                                                         </div>
                                                         <div className="search-body-item__price">

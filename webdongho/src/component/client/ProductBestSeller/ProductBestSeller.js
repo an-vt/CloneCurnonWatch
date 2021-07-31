@@ -27,8 +27,8 @@ function ProductBestSeller(props) {
                     <div className="row">
                         {products.map(product => {
                             return <div key={product._id} className="col l-3">
-                                <Link to={`/product/${product.id}`} className="bestseller__item">
-                                    <img src={"http://localhost:8080/api/download/"+product.image} alt="" className="bestseller__img" />
+                                <Link to={`/product/${product._id}`} className="bestseller__item">
+                                    <img src={"http://localhost:4000/api/download/"+product.image} alt="" className="bestseller__img" />
                                     <span className="bestseller__type">{product.name}</span>
                                     <span className="bestseller__price-current">{product.price} <span className="bestseller__unit">đ</span></span>
                                     <span className="bestseller__detail">XEM SẢN PHẨM</span>

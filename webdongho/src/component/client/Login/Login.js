@@ -55,7 +55,13 @@ function Login(props) {
         };
 
         try {
-            let response = await fetch("http://localhost:8080/api/login", requestOptions)
+            let response = await fetch("http://localhost:4000/api/login", requestOptions)
+            if (response.status == 400) {
+                alert('Tài khoản của bạn bị vô hiệu hóa')
+            }
+            if (response.status == 401) {
+                alert('Tài khoản hoặc mật khẩu không chính xác')
+            }
             if (response.ok) {
                 let result = await response.json()
                 console.log(result)
@@ -63,16 +69,21 @@ function Login(props) {
                 if (onLogin) {
                     onLogin()
                 }
-            }
-            if(response.status != 500) {
                 if (previousUrl === '/checkout') {
                     history.push(previousUrl)
                 } else {
                     history.push('/')
                 }
-            }else {
-                alert("Login failed")
             }
+            // if(response.status != 500) {
+            //     if (previousUrl === '/checkout') {
+            //         history.push(previousUrl)
+            //     } else {
+            //         history.push('/')
+            //     }
+            // }else {
+            //     alert("Login failed")
+            // }
         } catch (error) {
             console.log('login error ', error)
         }

@@ -43,7 +43,7 @@ function Checkout(props) {
             };
     
             try {
-                let response = await fetch("http://localhost:8080/api/member/me", requestOptions)
+                let response = await fetch("http://localhost:4000/api/member/me", requestOptions)
                 if (response.ok) {
                     let result = await response.json()
                     console.log(result)
@@ -70,7 +70,7 @@ function Checkout(props) {
     useEffect(() => {
         async function getTotalPrice() {
             let total = await carts.reduce((initValue, cartItem) => {
-                return initValue + (parseInt(cartItem.price) * parseInt(cartItem.quantity))
+                return initValue + (parseInt((cartItem.price).split('.').join('')) * parseInt(cartItem.quantity))
             }, 0)
             setTotalPrice(total)
         }
@@ -85,7 +85,7 @@ function Checkout(props) {
             redirect: 'follow'
         };
         try {
-            let response = await fetch("http://localhost:8080/api/coupon/" + code, requestOptions);
+            let response = await fetch("http://localhost:4000/api/coupon/" + code, requestOptions);
             if (response.status == 400) {
                 setIsCoupon(false)
                 setCoupon({})
@@ -133,32 +133,11 @@ function Checkout(props) {
             myHeaders.append("Authorization", "Bearer " + localStorage.getItem('accessTokenClient'));
             myHeaders.append("Content-Type", "application/json");
 
-            let newCart = carts.map(item => {
-                return {
-                    "unitPrice": item.price,
-                    "quantity": item.quantity,
-                    "productDTO": {
-                        "id": item.id,
-                        "name": item.name
-                    } 
-                }
-            })
-
-            console.log(newCart)
-
-            console.log(user)
-
             var raw = JSON.stringify({
-                "billDTO": {
-                    "priceTotal": totalFinal,
-                    "coupon": isCoupon ? counpon.code : '',
-                    "couponPresent": isCoupon ? counpon.present : '',
-                    "pay": "Tiền mặt",
-                    "buyDate": Date.now(),
-                    "status": "đang xử lí",
-                    "userDTO": user
-                },
-                "billProductDTO": newCart
+                cart: carts,
+                counpon: isCoupon ? counpon : null,
+                user: user,
+                totalFinal
             });
 
             var requestOptions = {
@@ -169,7 +148,7 @@ function Checkout(props) {
             };
 
             try {
-                let response = await fetch("http://localhost:8080/api/member/order", requestOptions)
+                let response = await fetch("http://localhost:4000/api/member/order", requestOptions)
                 console.log(response)
                 if (response.ok) {
                     localStorage.removeItem('cart')
@@ -260,7 +239,7 @@ function Checkout(props) {
                                         <div className="order-item">
                                             <div className="order-item-wrap">
                                                 <div className="order-item-picture">
-                                                    <img src={"http://localhost:8080/api/download/" + cartItem.image} alt="" className="order-item-img" />
+                                                    <img src={"http://localhost:4000/api/download/" + cartItem.image} alt="" className="order-item-img" />
                                                 </div>
                                                 <div className="order-item-info">
                                                     <p className="order-item-name">{cartItem.name}</p>
