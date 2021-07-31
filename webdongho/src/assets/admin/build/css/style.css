@@ -1,0 +1,13 @@
+.btn {
+    color: #fff;
+    background-color: #0069d9;
+    border-color: #0062cc;
+}
+
+.login-admin {
+    background-color: #fff;
+}
+
+.form-control {
+    width: 100% !important;
+}
